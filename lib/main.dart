@@ -1,6 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:ha/Presentation/Dashboard.dart';
+import 'Presentation/Home.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -12,66 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Myhome(),
+      home: FirebaseAuth.instance.currentUser==null ?  Myhome():Dashboard(),
     );
   }
 }
-
-class Myhome extends StatefulWidget {
-  const Myhome({Key? key}) : super(key: key);
-
-  @override
-  State<Myhome> createState() => _MyhomeState();
-}
-
-class _MyhomeState extends State<Myhome> {
-
-  var email=TextEditingController();
-  var password=TextEditingController();
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: Column(
-        children:[
-          SizedBox(height: 50,),
-          Padding(
-            padding: const EdgeInsets.only(left: 16,right: 16),
-            child: TextFormField(
-              controller: email,
-              decoration: InputDecoration(
-                hintText: 'Enter Email',
-              ),
-            ),
-          ),
-          SizedBox(height: 50,),
-          Padding(
-            padding: const EdgeInsets.only(left: 16,right: 16),
-            child: TextFormField(
-              controller: password,
-              decoration: InputDecoration(
-                hintText: 'Enter Password',
-              ),
-            ),
-          ),
-          const SizedBox(height: 50,),
-          ElevatedButton(onPressed: (){
-            print(email.text);
-            print(password.text);
-          }, child: const Text('Login')),
-        ],
-      ),
-    );
-  }
-}
-
-
 
