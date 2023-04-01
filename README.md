@@ -1,4 +1,4 @@
-# ha
+# Helping Hands PUCIT
 
 A new Flutter project.
 
